@@ -1,0 +1,64 @@
+<h1>{{title}}</h1>
+<h4>Raspberry Pi {{piModel.model}}, Memory {{piModel.memory}} {{piModel.notes}}<br/>
+{{#if hat.name}}
+{{hat.product}} by {{hat.vendor}}
+{{else}}
+Controller Not Detected
+{{/if}}
+</h4>
+<form method="post">
+   <fieldset>
+   <legend>Gateway</legend>
+   <p>Set Repeater/Hotspot callsigns. Review the other values, it is recommended to start with the default values.</p>
+   <table>
+	<tr>
+		<th>Gateway Type</th>
+		<td class="ircinput">
+			<select id="gatewayType" name="gatewayType" onchange="updateoptions(this)">
+				<option value="0">Repeater</option>
+				<option value="1">Hotspot</option>
+				<option value="2">Dongle</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>Gateway Callsign</th>
+		<td class="ircinput">
+			<input type="text" onkeyup="upcase(this)" maxlen=8 id="gatewayCallsign" name="gatewayCallsign" value="{{conf.gatewayCallsign}}"/>&nbsp;G
+		</td>
+	</tr>
+   </table>
+   </fieldset>
+   <input type="submit"/>
+   <input type="reset" value="Reset" onclick="updateoptions(this)"/>
+</form>
+<script>
+var radiobuttons = ["rpt1Validation","dtmfBlanking","restriction","errorReply","beaconVoice","announcementEnabled","pttInvert","soundCardRXInvert","soundCardTXInvert"];
+var selects = ["radioType","mode","ack","language","serialConfig"];
+
+function setSimplex() {
+	var x = $('#mode').val()
+	if (x === "1") { 
+		$('#serialConfig').val("5");
+		$('#serialConfig').css('background-color','yellow');
+	}
+}
+
+function updateoptions(mod) {
+        var url = "/ircconfig?modFile=" + mod.value;
+	console.log(url);
+        $.get(url,function(data) {
+                updateInputs(data,radiobuttons,selects);
+        });
+}
+
+function setgateway(ele) {
+        document.getElementById('gateway').value = ele.value.substring(0,7) + "G";
+}
+
+$(function() {
+        updateInputs(JSON.parse('{{{json conf}}}'),radiobuttons,selects);
+	setSimplex();
+});
+
+</script>
