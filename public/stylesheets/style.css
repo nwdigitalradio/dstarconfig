@@ -10,3 +10,7 @@ a {
 th {
   text-align:left;
 }
+
+.logo {
+  float: right;
+}

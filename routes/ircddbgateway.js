@@ -5,7 +5,7 @@ var fs = require('fs');
 var ini = require('ini');
 var piModel = require('../piModel')();
 var hatRead = require('../hatRead')();
-var ircddbgatewayconf = '/etc/opendv/dstarrepeater_1';
+var ircddbgatewayconf = '/etc/opendv/ircddbgateway';
 const exec = require('child_process').exec;
 
 hbs.registerHelper('json', function(context) {
@@ -51,7 +51,6 @@ router.post('/', isAuthenticated, function(req, res, next) {
 
 module.exports = router;
 function isAuthenticated(req, res, next) {
-	console.log(req.session);
     if (typeof req.session.passport !== 'undefined' && req.session.passport.user )
         return next();
 

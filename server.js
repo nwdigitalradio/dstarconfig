@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ini = require('ini');
 var fs = require('fs');
+var rhn = require('./reflectorHostNames');
 
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
@@ -33,6 +34,7 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: false, save
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
+app.use('/jquery-ui', express.static(__dirname + '/node_modules/jquery-ui-dist/'));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -89,38 +91,57 @@ app.get('/config',
 	res.send(curConf);
 });
 
+app.get('/ircconfig', 
+	passport.authenticate('local', { failureRedirect: '/login' }),
+	function (req,res) {
+	var curConf = {};
+	var uri = "/etc/opendv/ircddbgateway";
+	switch (req.query.modFile) {
+		case "Reset":
+			uri="./resources/ircreset.mod"
+			break;
+	}
+	var curConfStr = fs.readFileSync(uri, { encoding : "UTF-8" });
+	curConf = ini.parse(curConfStr);
+	res.send(curConf);
+});
+
+app.get('/reflector-list', function(req, res, next) {
+	res.send(rhn());
+});
+
 app.get('/login', function(req, res, next){
-    res.render('login');
+	res.render('login');
 });
 
 app.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
+	passport.authenticate('local', { failureRedirect: '/login' }),
+	function(req, res) {
+		res.redirect('/');
 });
 
 app.get('/logout',
-  function(req, res){
-    req.logout();
-    res.redirect('/');
+	function(req, res){
+		req.logout();
+		res.redirect('/');
 });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+	res.status(err.status || 500);
+	res.render('error');
 });
 
 module.exports = app;
