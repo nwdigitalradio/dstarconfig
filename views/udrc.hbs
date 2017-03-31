@@ -1,4 +1,3 @@
-<img src="/apple-icon-120x120.png" class="logo"/>
 <h1>{{title}}</h1>
 <h4>Raspberry Pi {{piModel.model}}, Memory {{piModel.memory}} {{piModel.notes}}<br/>
 {{#if hat.name}}
@@ -11,6 +10,7 @@ Controller Not Detected
    <fieldset>
    <legend>Required settings, specific to your setup</legend>
    <p>Set Repeater/Hotspot callsigns. Review the other values, it is recommended to start with the default values.</p>
+   <div class="servicecell-nb">
    <table>
       <tr>
          <th>Radio Type</th>
@@ -67,6 +67,23 @@ Controller Not Detected
          </td>
       </tr>
       <tr>
+         <th>Modem Type</th>
+         <td class="udrcinput"><input contenteditable="false" type="hidden" name="modemType" id="modemType" value="{{conf.modemType}}" />Sound Card</td>
+      </tr>
+      <tr>
+         <th>UDRC Modem RX Device</th>
+         <td class="udrcinput"><input type="hidden" name="soundCardRXDevice" id="soundCardRXDevice" value="{{conf.soundCardRXDevice}}" />{{conf.soundCardRXDevice}}</td>
+      </tr>
+      <tr>
+         <th>UDRC Modem TX Device</th>
+         <td class="udrcinput"><input type="hidden" name="soundCardTXDevice" id="soundCardTXDevice" value="{{conf.soundCardTXDevice}}" />{{conf.soundCardTXDevice}}</td>
+      </tr>
+      </table>
+      </div>
+
+      <div class="servicecell-nb">
+      <table>
+      <tr>
          <th>Repeater Response Message</th>
          <td class="udrcinput">
             <select id="ack" name="ack">
@@ -104,6 +121,11 @@ Controller Not Detected
             <input type="radio" name="errorReply"  id="errorReply" value="0">Off
          </td>
       </tr>
+      </table>
+      </div>
+
+      <div class="servicecell-nb">
+      <table>
       <tr>
          <th>Beacon Interval (seconds)</th>
          <td class="udrcinput"><input type="number" name="beaconTime" id="beaconTime" value="{{conf.beaconTime}}" /></td>
@@ -150,19 +172,8 @@ Controller Not Detected
             <td class="udrcinput"><input type="text" name="controlEnabled" id="controlEnabled" value="{{conf.controlEnabled}}" /></td>
       </tr>
          -->
-      <tr>
-         <th>Modem Type</th>
-         <td class="udrcinput"><input contenteditable="false" type="hidden" name="modemType" id="modemType" value="{{conf.modemType}}" />Sound Card</td>
-      </tr>
-      <tr>
-         <th>UDRC Modem RX Device</th>
-         <td class="udrcinput"><input type="hidden" name="soundCardRXDevice" id="soundCardRXDevice" value="{{conf.soundCardRXDevice}}" />{{conf.soundCardRXDevice}}</td>
-      </tr>
-      <tr>
-         <th>UDRC Modem TX Device</th>
-         <td class="udrcinput"><input type="hidden" name="soundCardTXDevice" id="soundCardTXDevice" value="{{conf.soundCardTXDevice}}" />{{conf.soundCardTXDevice}}</td>
-      </tr>
     </table>
+    </div>
     </fieldset>
    <fieldset>
    <legend>Settings specific to your network</legend>
@@ -253,7 +264,8 @@ Controller Not Detected
    </table>
    </fieldset>
    <input type="submit"/>
-   <input type="reset" value="Reset" onclick="updateoptions(this)"/>
+   <input type="reset" value="Reload" onclick="updateoptions(this)"/>
+   <input type="reset" value="Clear" onclick="updateoptions(this)"/>
 </form>
 <script>
 var radiobuttons = ["rpt1Validation","dtmfBlanking","restriction","errorReply","beaconVoice","announcementEnabled","pttInvert","soundCardRXInvert","soundCardTXInvert"];
@@ -268,7 +280,7 @@ function setSimplex() {
 }
 
 function updateoptions(mod) {
-        var url = "/config?modFile=" + mod.value;
+        var url = "/udrcconfig?modFile=" + mod.value;
 	console.log(url);
         $.get(url,function(data) {
                 updateInputs(data,radiobuttons,selects);

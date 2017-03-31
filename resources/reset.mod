@@ -1,5 +1,5 @@
-callsign=N0CALL B
-gateway=N0CALL G
+callsign=
+gateway=
 mode=0
 ack=1
 restriction=0
@@ -8,7 +8,7 @@ dtmfBlanking=1
 errorReply=1
 gatewayAddress=127.0.0.1
 gatewayPort=20010
-localAddress=0.0.0.0
+localAddress=127.0.0.1
 localPort=20011
 networkName=UDRC
 modemType=Sound Card

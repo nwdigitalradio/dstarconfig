@@ -1,4 +1,3 @@
-<img src="/apple-icon-120x120.png" class="logo"/>
 <h1>{{title}}</h1>
 <h4>Raspberry Pi {{piModel.model}}, Memory {{piModel.memory}} {{piModel.notes}}<br/>
 {{#if hat.name}}
@@ -10,8 +9,7 @@ Controller Not Detected
 <form method="post">
    <fieldset>
    <legend>Gateway</legend>
-   <p>Set your gateway callsign (which should match your repeater callsign without the module ID). Otherwise, generally use defaults for the other fields.</p>
-   <p>When the callsign is entered, a URL will be automatically generated, that can be replaced.  The automatically generated URL will become active once your gateway reports into QuadNet and/or ircDDB.net</p>
+   <div class="servicecell-nb">
    <table>
 	<tr>
 		<th>Gateway Type</th>
@@ -26,7 +24,7 @@ Controller Not Detected
 	<tr>
 		<th>Gateway Callsign</th>
 		<td class="ircinput">
-			<input type="text" onkeyup="upcase(this)" maxlen=8 id="gatewayCallsign" name="gatewayCallsign" 
+			<input type="text" onkeyup="upcase(this)" maxlen=6 id="gatewayCallsign" name="gatewayCallsign" 
 				value="{{conf.gatewayCallsign}}" required
 				onchange="updateURL(this.value)"
 				pattern="[A-Z0-9]{1}[A-Z0-9]{0,1}\d{1}[A-Z]{0,4}" 
@@ -70,21 +68,23 @@ Controller Not Detected
 		</td>
 	</tr>
    </table>
-   </fieldset>
-   <fieldset>
-   <legend>Gateway Location and URL</legend>
-   <p>Latitude and Longitude are designated in decimal degrees use negative numbers for S and W</p>
+   </div>
+   <div class="servicecell-nb">
    <table>
 	<tr>
 	<th>Latitude</th>
 	<td>
-		<input type="number" name="latitude" id="latitude" value="{{conf.latitude}}" required />&deg;
+		<input type="number" step="any" name="latitude" id="latitude" 
+		title="Latitude and Longitude are designated in decimal degrees use negative numbers for S and W"
+		value="{{conf.latitude}}" required />&deg;
 	</td>
 	</tr>
 	<tr>
 	<th>Longitude</th>
 	<td>
-		<input type="number" name="longitude" id="longitude" value="{{conf.longitude}}" required />&deg;
+		<input type="number" step="any" name="longitude" id="longitude" 
+		title="Latitude and Longitude are designated in decimal degrees use negative numbers for S and W"
+		value="{{conf.longitude}}" required />&deg;
 	</td>
 	</tr>
 	<tr>
@@ -97,46 +97,55 @@ Controller Not Detected
 	<tr>
 	<th>URL</th>
 	<td>
-		<input type="url" name="url" id="url" value="{{conf.url}}" />
+		<input type="url" name="url" id="url" value="{{conf.url}}"
+		title="When the gatewaycallsign is entered, a URL will be automatically generated, that can be replaced.  The automatically generated URL will become active once your gateway reports into QuadNet and/or ircDDB.net"
+		 />
 	</td>
 	</tr>
    </table>
+   <button type="button" onclick="guessLocation()">Guess Location</button>
+   </div>
+   <div class="servicecell-nb">
+		<div class="highlightcell">Remote Control</div>
+		<input type="radio" onclick="$('#remotePassword').prop('required',true);$('#remotePort').prop('required',true)"
+		name="remoteEnabled" id="remoteEnabled" value="1">Enabled&nbsp;
+		<input type="radio" onclick="$('#remotePassword').prop('required',false);$('#remotePort').prop('required',false)"
+		name="remoteEnabled" id="remoteEnabled" value="0">Disabled<br/>
+		<table>
+		<tr>
+		<th>
+		<label for="remotePassword">Password</label>
+		</th>
+		<td>
+		<input type="text" id="remotePassword" name="remotePassword" 
+		title="Password to issue remote commands for linking, etc."
+		value="{{conf.remotePassword}}" /><br/>
+		</td>
+		</tr>
+		<tr>
+		<th>
+		<label for="remotePort">UDP Port</label>
+		</th>
+		<td>
+		<input type="text" pattern="\d{1,5}" id="remotePort" name="remotePort" 
+		title="Pick a unique port above 1024 and below 65000" value="{{conf.remotePort}}" />
+		</td>
+		</tr>
+		</table>
+	</div>
    </fieldset>
 
    <fieldset>
-   <legend>UDRC Repeater</legend>
-   <p>Setup your UDRC based repeater/hotspot as repeater 1 on this gateway</p>
-   <table style="float:right">
-	<thead>
-		<tr>
-			<th>Band Selection Convention</th>
-		</tr>
-		<tr>
-			<th>Module/Band Letter</th>
-			<th>Conventional Band Assignment</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>A</td><td>23cm or 1.25m</td>
-		</tr>
-		<tr>
-			<td>B</td><td>70cm</td>
-		</tr>
-		<tr>
-			<td>C</td><td>2m</td>
-		</tr>
-	</tbody>
-   </table>
+   <legend>UDRC Repeater (Repeater 1)</legend>
    <table>
 	<tr>
 		<th>Module/Band</th>
 		<td class="ircinput">
-			<select id="repeaterBand1" name="repeaterBand1" value="{{conf.repeaterBand1}}">
+			<select id="repeaterBand1" name="repeaterBand1" value="{{conf.repeaterBand1}}" title="Must match what was set in UDRC setup">
 				<option value="">None</option>
-				<option value="A">A</option>
-				<option value="B">B</option>
-				<option value="C">C</option>
+				<option title="Usually 1.25cm on UDRC / 23cm on Icom" value="A">A</option>
+				<option title="Usually 70cm" value="B">B</option>
+				<option title="Usually 2m" value="C">C</option>
 				<option value="D">D</option>
 			</select>
 		</td>
@@ -189,6 +198,7 @@ Controller Not Detected
 				<option value='X'>X</option>
 				<option value='Y'>Y</option>
 				<option value='Z'>Z</option>
+				<option value=' '> </option>
 			</select>
 		</td>
 	</tr>
@@ -199,7 +209,7 @@ Controller Not Detected
 			<input type="radio" name="atStartup1" id="atStartup1" value="0">No
 		</td>
 	</tr>
-`	<tr>
+	<tr>
 		<th>Link absent local traffic</th>
 		<td>
 			<select id="reconnect1" name="reconnect1" value="{{conf.reconnect1}}">
@@ -222,19 +232,19 @@ Controller Not Detected
 	<tr>
 		<th>Latitude</th>
 		<td>
-			<input type="number" name="latitude1" id="latitude1" value="{{conf.latitude1}}" required />&deg;
+			<input type="number" step="any" name="latitude1" id="latitude1" value="{{conf.latitude1}}" required />&deg;
 		</td>
 		</tr>
         <tr>
 		<th>Longitude</th>
 		<td>
-			<input type="number" name="longitude1" id="longitude1" value="{{conf.longitude1}}" required />&deg;
+			<input type="number" step="any" name="longitude1" id="longitude1" value="{{conf.longitude1}}" required />&deg;
 		</td>
         </tr>
         <tr>
 		<th>Antenna Height (AGL)</th>
 		<td>
-			<input type="number" name="agl1" id="agl1" value="{{conf.agl1}}" required />&nbsp;Meters
+			<input type="number" step="any" name="agl1" id="agl1" value="{{conf.agl1}}" required />&nbsp;Meters
 		</td>
         </tr>
         <tr>
@@ -256,19 +266,28 @@ Controller Not Detected
 
    <fieldset>
    <legend>ircDDB Connection</legend>
-   <h3>ircDDB Reporting One</h3>
+   <div class="servicecell">
+   <h3>ircDDB.net Reporting</h3>
+   <a href="http://regsrv.ircddb.net" target="new">Registration Required</a>
    <table>
 	<tr>
 		<th>ircDDB Enabled</th>
 		<td>
-			<input type="radio" name="ircddbEnabled" id="ircddbEnabled" value="1">Yes &nbsp;
-                        <input type="radio" name="ircddbEnabled" id="ircddbEnabled" value="0">No
+			<input type="radio" name="ircddbEnabled" id="ircddbEnabled" 
+			onclick="$('#ircddbUsername').prop('required',true);$('#ircddbPassword').prop('required',true)"
+			value="1">Yes &nbsp;
+                        <input type="radio" name="ircddbEnabled" id="ircddbEnabled" 
+			onclick="$('#ircddbUsername').prop('required',false);$('#ircddbPassword').prop('required',false)"
+			value="0">No
 		</td>
 	</tr>
 	<tr>
 		<th>ircDDB Hostname</th>
 		<td>
-			<input type="text" name="ircddbHostname" id="irdddbHostname" value="{{conf.ircddbHostname}}" />
+		<select id="ircddbHostname" name="ircddbHostname" value="{{conf.ircddbHostname}}">
+			<option value="group1-irc.ircddb.net">Non-Americas (Group1)</option>
+			<option value="group2-irc.ircddb.net">Americas (Group2)</option>
+		</select>
 		</td>
 	</tr>
 	<tr>
@@ -284,19 +303,25 @@ Controller Not Detected
 		</td>
 	</tr>
    </table>
-   <h3>ircDDB Reporting Two</h3>
+   </div>
+   <div class="servicecell">
+   <h3>QuadNet Reporting</h3>
+   <a href="https://www.openquad.net/" target="new">Information</a>
    <table>
 	<tr>
 		<th>ircDDB Enabled</th>
 		<td>
-			<input type="radio" name="ircddbEnabled2" id="ircddbEnabled2" value="1">Yes &nbsp;
-                        <input type="radio" name="ircddbEnabled2" id="ircddbEnabled2" value="0">No
+			<input type="radio" name="ircddbEnabled2" id="ircddbEnabled2" value="1"
+			onclick="$('#ircddbUsername2').prop('required',true)">Yes &nbsp;
+                        <input type="radio" name="ircddbEnabled2" id="ircddbEnabled2" value="0"
+			onclick="$('#ircddbUsername2').prop('required',false)">No &nbsp;
 		</td>
 	</tr>
 	<tr>
 		<th>ircDDB Hostname</th>
 		<td>
-			<input type="text" name="ircddbHostname2" id="irdddbHostname2" value="{{conf.ircddbHostname2}}" />
+			{{conf.ircddbHostname2}}
+			<input type="hidden" name="ircddbHostname2" id="irdddbHostname2" value="{{conf.ircddbHostname2}}" />
 		</td>
 	</tr>
 	<tr>
@@ -308,30 +333,106 @@ Controller Not Detected
 	<tr>
 		<th>ircDDB Password</th>
 		<td>
-			<input type="text" name="ircddbPassword2" id="ircddbPassword2" value="{{conf.ircddbPassword2}}" />
+			Not Required
+			<input type="hidden" name="ircddbPassword2" id="ircddbPassword2" value="{{conf.ircddbPassword2}}" />
 		</td>
 	</tr>
    </table>
+   </div>
    </fieldset>
 
    <fieldset>
-   <legend>Gateway Location</legend>
-   <table>
-   </table>
+   <legend>Services</legend>
+   <div>
+	<div class="servicecell">
+		<div class="highlightcell">CCS Linking</div>
+		<input type="radio" name="ccsEnabled" id="ccsEnabled" value="1">Enabled<br/>
+       		<input type="radio" name="ccsEnabled" id="ccsEnabled" value="0">Disabled
+		<div class="highlightcell">CCS Host</div>
+		<select id="ccsHost" name="ccsHost" value="{{conf.ccsHost}}">
+		<option value='CCS701'>CCS701</option>
+		<option value='CCS702'>CCS702</option>
+		<option value='CCS703'>CCS703</option>
+		<option value='CCS704'>CCS704</option>
+		<option value='CCS705'>CCS705</option>
+		<option value='CCS706'>CCS706</option>
+		<option value='CCS707'>CCS707</option>
+		<option value='CCS710'>CCS710</option>
+		<option value='CCS711'>CCS711</option>
+		<option value='CCS713'>CCS713</option>
+		<option value='CCS721'>CCS721</option>
+		<option value='CCS722'>CCS722</option>
+		<option value='CCS724'>CCS724</option>
+		<option value='CCS728'>CCS728</option>
+		<option value='CCS732'>CCS732</option>
+		</select>
+	</div>
+	<div class="servicecell">
+		<div class="highlightcell">DCS Linking</div>
+		<input type="radio" name="dcsEnabled" id="dcsEnabled" value="1">Enabled<br/>
+       		<input type="radio" name="dcsEnabled" id="dcsEnabled" value="0">Disabled
+	</div>
+	<div class="servicecell">
+		<div class="highlightcell">DExtra Linking</div>
+		<input type="radio" name="dextraEnabled" id="dextraEnabled" value="1">Enabled<br/>
+       		<input type="radio" name="dextraEnabled" id="dextraEnabled" value="0">Disabled<br/>
+		<div class="highlightcell">Maximum Dongles</div>
+		<input type="text" pattern="[0-5]" id="dextraMaxDongles" name="dextraMaxDongles" value="{{conf.dextraMaxDongles}}"/>
+	</div>
+	<div class="servicecell">
+		<div class="highlightcell">D-PLUS Linking</div>
+		<input type="radio" name="dplusEnabled" id="dplusEnabled" value="1" onclick="$('#dplusLogin').prop('required',true)">Enabled<br/>
+       		<input type="radio" name="dplusEnabled" id="dplusEnabled" value="0" onclick="$('#dplusLogin').prop('required',false)">Disabled
+		<div class="highlightcell">Maximum Dongles</div>
+		<input type="text" pattern="[0-5]" id="dplusMaxDongles" name="dplusMaxDongles" value="{{conf.dplusMaxDongles}}"/>
+		<div class="highlightcell">D-PLUS Login</div>
+		<input type="text" id="dplusLogin" name="dplusLogin" value="{{conf.dplusLogin}}"
+				pattern="[A-Z0-9]{1}[A-Z0-9]{0,1}\d{1}[A-Z]{0,4}\s{0,5}[A-Z]{0,1}" 
+				maxlen="8" onkeyup="upcase(this)"
+            			title="A D-PLUS Login is a US Trust Registered User Callsign"/>
+	</div>
+	<div class="servicecell">
+		<div class="highlightcell">Info Command</div>
+		<input type="radio" name="infoEnabled" id="infoEnabled" value="1">Enabled<br/>
+       		<input type="radio" name="infoEnabled" id="infoEnabled" value="0">Disabled
+	</div>
+	<div class="servicecell">
+		<div class="highlightcell">Echo (Parrot)</div>
+		<input type="radio" name="echoEnabled" id="echoEnabled" value="1">Enabled<br/>
+       		<input type="radio" name="echoEnabled" id="echoEnabled" value="0">Disabled
+	</div>
+	<div class="servicecell">
+		<div class="highlightcell">DTMF Control</div>
+		<input type="radio" name="dtmfEnabled" id="dtmfEnabled" value="1">Enabled<br/>
+       		<input type="radio" name="dtmfEnabled" id="dtmfEnabled" value="0">Disabled
+	</div>
+	<div class="servicecell">
+		<div class="highlightcell">D-RATS Channel</div>
+		<input type="radio" name="dratsEnabled" id="dratsEnabled" value="1">Enabled<br/>
+       		<input type="radio" name="dratsEnabled" id="dratsEnabled" value="0">Disabled
+	</div>
+   </div>
    </fieldset>
-
    <input type="submit"/>
-   <input type="reset" value="Reset" onclick="updateoptions(this)"/>
+   <input type="reset" value="Reload" onclick="updateoptions(this)"/>
+   <input type="reset" value="Clear" onclick="updateoptions(this)"/>
 </form>
 <script>
 
-var radiobuttons = ["atStartup1","ircddbEnabled","ircddbEnabled2"];
-var selects = ["gatewayType","repeaterBand1","reconnect1"];
+var radiobuttons = ["atStartup1","ircddbEnabled","ircddbEnabled2","dtmfEnabled","infoEnabled","ccsEnabled",
+		    "dcsEnabled","dextraEnabled","dplusEnabled","echoEnabled","dratsEnabled","remoteEnabled"];
+var selects = ["gatewayType","repeaterBand1","reconnect1","ircddbHostname","ccsHost"];
+
+var geolocation = {}; 
+
 
 function updateURL(callsign) {
 	var urlstring = "http://" + callsign.toLowerCase().trim() + ".dgw.ar-dns.net";
-	console.log(urlstring);
+	// console.log(urlstring);
 	$("#ircddbUsername").val(callsign.toLowerCase());
+	if (callsign.charAt(0).match(/\d/) !== null) {
+		callsign = 'r'+callsign;
+	}
 	$("#ircddbUsername2").val(callsign.toLowerCase());
 	$("#url").val(urlstring);
 	$("#url1").val(urlstring);
@@ -339,7 +440,7 @@ function updateURL(callsign) {
 
 function updateoptions(mod) {
         var url = "/ircconfig?modFile=" + mod.value;
-	console.log(url);
+	// console.log(url);
         $.get(url,function(data) {
                 updateInputs(data,radiobuttons,selects);
         });
@@ -354,8 +455,16 @@ function setReflector(reflector) {
 	var callsign = $('#refin').val();
 	var module = $('#refmod').val();
 	var selection = callsign + maxfield.substr(callsign.length) + module;
-	console.log("[" + selection + "] " + selection.length);
+//	console.log("[" + selection + "] " + selection.length);
 	$(reflector).val(selection);	
+}
+
+function guessLocation() {
+	// console.log(geolocation);
+	$("#latitude").val(geolocation.latitude);
+	$("#longitude").val(geolocation.longitude);
+	$("#description1").val(geolocation.city);
+	$("#description2").val(geolocation.country_name);
 }
 
 $(function() {
@@ -364,12 +473,16 @@ $(function() {
 	$( "#refin" ).val(ref1.substring(0,7));
 	$( "#refmod" ).val(ref1.substring(7));
 	$( "#refin" ).autocomplete({
+		minLength: 0,
 		source: "/reflector-list",
       		select: function( event, ui ) {
 			console.log(ui);
 	
 		}
 	});
+	$.get("/geolocate",function(data) { 
+		geolocation = data ;
+	}); 
 });
 
 </script>

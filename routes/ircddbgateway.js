@@ -3,8 +3,8 @@ var router = express.Router();
 var hbs = require('hbs');
 var fs = require('fs');
 var ini = require('ini');
-var piModel = require('../piModel')();
-var hatRead = require('../hatRead')();
+var piModel = require('../resources/piModel')();
+var hatRead = require('../resources/hatRead')();
 var ircddbgatewayconf = '/etc/opendv/ircddbgateway';
 const exec = require('child_process').exec;
 

@@ -26,6 +26,15 @@
 		<script type='text/javascript' src='/javascripts/nwdr.js'></script>
 	</head>
 	<body>
+{{> header }}
 {{{body}}}
+<script>
+$(function() {
+    $('ul.menu a').click(function() {
+       $('ul.menu a').removeClass('active');
+       $(this).addClass('active');
+   });
+});
+</script>
 	</body>
 </html>
