@@ -198,7 +198,7 @@ Controller Not Detected
 				<option value='X'>X</option>
 				<option value='Y'>Y</option>
 				<option value='Z'>Z</option>
-				<option value=' '> </option>
+				<option selected value=' '> </option>
 			</select>
 		</td>
 	</tr>
@@ -465,6 +465,11 @@ function guessLocation() {
 	$("#longitude").val(geolocation.longitude);
 	$("#description1").val(geolocation.city);
 	$("#description2").val(geolocation.country_name);
+	$("#latitude1").val(geolocation.latitude);
+	$("#longitude1").val(geolocation.longitude);
+	$("#description1_1").val(geolocation.city);
+	$("#description1_2").val(geolocation.country_name);
+	alert("The estimated location is based on your gateway's public IP address (" + geolocation.ip + "). Please use a GPS or other method to increase accuracy. This is reported to your ircDDB server to map your location.");
 }
 
 $(function() {
