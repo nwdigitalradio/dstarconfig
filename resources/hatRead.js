@@ -11,11 +11,13 @@ function trimNull(a) {
 
 var hatRead = function() {
 	var hat = {}; 
-	var items = fs.readdirSync(path);
-	for (var i=0; i<items.length; i++) {
-		var filename = path + "/" + items[i];
-		var value = fs.readFileSync(filename).toString().trim();
-		hat[items[i]] = trimNull(value);
+	if (fs.existsSynce(path)) {
+		var items = fs.readdirSync(path);
+		for (var i=0; i<items.length; i++) {
+			var filename = path + "/" + items[i];
+			var value = fs.readFileSync(filename).toString().trim();
+			hat[items[i]] = trimNull(value);
+		}
 	}
 	return hat;
 }
