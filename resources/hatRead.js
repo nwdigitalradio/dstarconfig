@@ -11,7 +11,7 @@ function trimNull(a) {
 
 var hatRead = function() {
 	var hat = {}; 
-	if (fs.existsSynce(path)) {
+	if (fs.existsSync(path)) {
 		var items = fs.readdirSync(path);
 		for (var i=0; i<items.length; i++) {
 			var filename = path + "/" + items[i];
