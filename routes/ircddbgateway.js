@@ -8,22 +8,6 @@ var hatRead = require('../resources/hatRead')();
 var ircddbgatewayconf = '/etc/opendv/ircddbgateway';
 const exec = require('child_process').exec;
 
-hbs.registerHelper('json', function(context) {
-    return JSON.stringify(context);
-});
-hbs.registerHelper("switch", function(value, options) {
-  this._switch_value_ = value;
-  var html = options.fn(this); // Process the body of the switch block
-  delete this._switch_value_;
-  return html;
-});
-
-hbs.registerHelper("case", function(value, options) {
-  if (value == this._switch_value_) {
-    return options.fn(this);
-  }
-});
-
 var curConfStr = fs.readFileSync(ircddbgatewayconf, { encoding : "UTF-8" });
 var ircddbgwconf = ini.parse(curConfStr);
 /* GET home page. */
@@ -44,7 +28,6 @@ router.post('/', isAuthenticated, function(req, res, next) {
 	var newconfig = ini.encode(ircddbgwconf);
 	console.log(newconfig);
 //	fs.writeFileSync(ircddbgatewayconf,newconfig);
-//	exec('systemctl restart ircddbgatewayd');
 	res.render('ircddbgateway', data);
 	
 });

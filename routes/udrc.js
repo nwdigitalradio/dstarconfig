@@ -26,7 +26,6 @@ router.post('/', isAuthenticated, function(req, res, next) {
 	var newconfig = ini.encode(udrcconf);
 	console.log(newconfig);
 //	fs.writeFileSync(dstarconfig1,newconfig);
-//	exec('systemctl restart dstarrepeaterd@1');
 	res.render('udrc', data);
 	
 });
