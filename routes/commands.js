@@ -58,12 +58,12 @@ router.get('/reboot', isAuthenticated, function(req, res, next) {
 
 router.get('/upnp/eth0', isAuthenticated, function(req, res, next) {
 	var action = req.query.command;
-	if (actions.contains(action)) exec("/opt/nwdr/scripts/upnp.sh eth0" + action );
+	if (actions.contains(action)) exec("/opt/nwdr/scripts/upnp.sh eth0 " + action );
 });
 
 router.get('/upnp/wlan0', isAuthenticated, function(req, res, next) {
 	var action = req.query.command;
-	if (actions.contains(action)) exec("/opt/nwdr/scripts/upnp.sh wlan0" + action );
+	if (actions.contains(action)) exec("/opt/nwdr/scripts/upnp.sh wlan0 " + action );
 });
 
 
