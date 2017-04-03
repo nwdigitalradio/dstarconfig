@@ -76,7 +76,7 @@ Controller Not Detected
 	<td>
 		<input type="number" step="any" name="latitude" id="latitude" 
 		title="Latitude and Longitude are designated in decimal degrees use negative numbers for S and W"
-		value="{{conf.latitude}}" required />&deg;
+		value="{{conf.latitude}}" required />&nbsp;&deg;
 	</td>
 	</tr>
 	<tr>
@@ -84,7 +84,7 @@ Controller Not Detected
 	<td>
 		<input type="number" step="any" name="longitude" id="longitude" 
 		title="Latitude and Longitude are designated in decimal degrees use negative numbers for S and W"
-		value="{{conf.longitude}}" required />&deg;
+		value="{{conf.longitude}}" required />&nbsp;&deg;
 	</td>
 	</tr>
 	<tr>
@@ -137,6 +137,7 @@ Controller Not Detected
 
    <fieldset>
    <legend>UDRC Repeater (Repeater 1)</legend>
+   <div class="servicecell-nb">
    <table>
 	<tr>
 		<th>Module/Band</th>
@@ -150,6 +151,19 @@ Controller Not Detected
 			</select>
 		</td>
 	</tr>
+	<tr>
+		<th>Output Frequency</th>
+		<td class="ircinput">
+			<input id="frequency1" name="frequency1" required value="{{conf.frequency1}}" type="number"/>&nbsp;mHz
+		</td>
+	</tr>
+	<tr>
+		<th>Receiver Offset (mHz)</th>
+		<td class="ircinput">
+			<input id="offset1" name="offset1" required value="{{conf.offset1}}" type="number"/>&nbsp;mHz
+		</td>
+	</tr>
+		
 	<tr>
 		<th>Repeater Listens On IP Address</th>
 		<td class="ircinput">
@@ -228,17 +242,20 @@ Controller Not Detected
 			</select>
 		</td>
 	</tr>
-	
+	</table>
+	</div>	
+   <div class="servicecell-nb">
+	<table>
 	<tr>
 		<th>Latitude</th>
 		<td>
-			<input type="number" step="any" name="latitude1" id="latitude1" value="{{conf.latitude1}}" required />&deg;
+			<input type="number" step="any" name="latitude1" id="latitude1" value="{{conf.latitude1}}" required />&nbsp;&deg;
 		</td>
 		</tr>
         <tr>
 		<th>Longitude</th>
 		<td>
-			<input type="number" step="any" name="longitude1" id="longitude1" value="{{conf.longitude1}}" required />&deg;
+			<input type="number" step="any" name="longitude1" id="longitude1" value="{{conf.longitude1}}" required />&nbsp;&deg;
 		</td>
         </tr>
         <tr>
@@ -262,6 +279,7 @@ Controller Not Detected
         </tr>
 		
    </table>
+   </div>
    </fieldset>
 
    <fieldset>

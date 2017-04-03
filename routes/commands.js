@@ -51,10 +51,21 @@ router.get('/dstarconfig', isAuthenticated, function(req, res, next) {
 	res.render('commands', data);
 });
 
-router.get('/reboot', isAuthenticated, function(req,res, next) {
+router.get('/reboot', isAuthenticated, function(req, res, next) {
 	res.send("Rebooting ...");
 	exec("reboot");
 });
+
+router.get('/upnp/eth0', isAuthenticated, function(req, res, next) {
+	var action = req.query.command;
+	if (actions.contains(action)) exec("/opt/nwdr/scripts/upnp.sh eth0" + action );
+});
+
+router.get('/upnp/wlan0', isAuthenticated, function(req, res, next) {
+	var action = req.query.command;
+	if (actions.contains(action)) exec("/opt/nwdr/scripts/upnp.sh wlan0" + action );
+});
+
 
 module.exports = router;
 
