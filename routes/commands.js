@@ -67,6 +67,15 @@ router.get('/upnp/wlan0', isAuthenticated, function(req, res, next) {
 });
 
 
+router.get('/setbcr', isAuthenticated, function(req, res, next) {
+        exec("/opt/nwdr/scripts/set-udrc-bcr220.sh");
+});
+
+router.get('/setdr1x', isAuthenticated, function(req, res, next) {
+        exec("/opt/nwdr/scripts/set-udrc-dr1x.sh");
+});
+
+
 module.exports = router;
 
 function isAuthenticated(req, res, next) {
