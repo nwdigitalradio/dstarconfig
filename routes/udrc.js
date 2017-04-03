@@ -24,8 +24,8 @@ router.post('/', isAuthenticated, function(req, res, next) {
                 }
         }
 	var newconfig = ini.encode(udrcconf);
-	console.log(newconfig);
-//	fs.writeFileSync(dstarconfig1,newconfig);
+//	console.log(newconfig);
+	fs.writeFileSync(dstarconfig1,newconfig);
 	res.render('udrc', data);
 	
 });
