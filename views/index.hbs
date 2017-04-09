@@ -10,7 +10,7 @@
 </div>
 <div class="servicecell-nb">
 	<h2>Repeater</h2>
-	<p>Once logged in you can edit parameters for the <a href="/udrc">Repeater / Hotspot</a>. At a minimum you should select
+	<p>Once logged in you can edit parameters for the <a href="/udrc">Repeater / Hotspot</a>. At a minimum you should set modem levels, select
 		a radio type and repeater callsign.  A repeater callsign is followed by a 'module ID' which must be in the 8th
 		position, so if your call is 'W1AW', you will need to put spaces (3) and then the module letter, resulting in
 		a field with '<span class="monospace">W1AW&nbsp;&nbsp;&nbsp;A</span>'.  The convention for module ID letter is:
@@ -71,4 +71,10 @@
 	<p><b>These commands and this application run with superuser privileges, so turn off this application when not in
 	use, and always block it on your firewall.</b></p>
 	
+</div>
+<div class="servicecell-nb">
+	<h2>User Account</h2>
+	<p>Change this configuration tool's password and/or username.</p> 
+	<p>It is also possible to have multiple accounts by editing the JSON in /var/www-node/dstarconfig/accounts.json. However, this page does not properly handle updating multiple accounts at this time.</p>	
+<p>This action does not change the pi account login which should also be changed by using the Linux passwd command.</p>
 </div>

@@ -181,9 +181,10 @@ Controller Not Detected
 		</td>
 	</tr>
 	<tr>
-		<th>Link to {{conf.reflector1}}</th>
+		<th>Link to</th>
 		<td>
 			<input type="hidden" name="reflector1" id="reflector1" value="{{conf.reflector1}}" />
+			<div class-"ui-widget">
 			<input type="text" onkeyup="upcase(this)" id="refin" onchange="setReflector('#reflector1')" />
 			<select id="refmod" onchange="setReflector('#reflector1')">
 				<option value='A'>A</option>
@@ -214,6 +215,7 @@ Controller Not Detected
 				<option value='Z'>Z</option>
 				<option selected value=' '> </option>
 			</select>
+			</div>
 		</td>
 	</tr>
 	<tr>
@@ -435,6 +437,7 @@ Controller Not Detected
    <input type="reset" value="Reload" onclick="updateoptions(this)"/>
    <input type="reset" value="Clear" onclick="updateoptions(this)"/>
 </form>
+<a href="/commands/updatehosts"><button>Update Host Files</button></a>
 <script>
 
 var radiobuttons = ["atStartup1","ircddbEnabled","ircddbEnabled2","dtmfEnabled","infoEnabled","ccsEnabled",
@@ -493,16 +496,11 @@ function guessLocation() {
 $(function() {
         updateInputs(JSON.parse('{{{json conf}}}'),radiobuttons,selects);
 	var ref1 = "{{conf.reflector1}}";
+	$.get("/reflector-list", function(data) {
+		$( "#refin" ).autocomplete({source:data});
+	});
 	$( "#refin" ).val(ref1.substring(0,7));
 	$( "#refmod" ).val(ref1.substring(7));
-	$( "#refin" ).autocomplete({
-		minLength: 0,
-		source: "/reflector-list",
-      		select: function( event, ui ) {
-			console.log(ui);
-	
-		}
-	});
 	$.get("/geolocate",function(data) { 
 		geolocation = data ;
 	}); 

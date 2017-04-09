@@ -75,6 +75,18 @@ router.get('/setdr1x', isAuthenticated, function(req, res, next) {
         exec("/opt/nwdr/scripts/set-udrc-dr1x.sh");
 });
 
+router.get('/updatehosts', isAuthenticated, function(req, res, next) {
+        exec("/opt/nwdr/scripts/pull-hosts.sh");
+});
+
+router.get('/updatedstarconfig', isAuthenticated, function(req, res, next) {
+        exec("/opt/nwdr/scripts/update-dstarconfig.sh");
+});
+
+router.get('/updatedashboard', isAuthenticated, function(req, res, next) {
+        exec("/opt/nwdr/scripts/update-ircnodedashboard.sh");
+});
+
 
 module.exports = router;
 

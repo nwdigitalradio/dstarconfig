@@ -26,7 +26,6 @@ router.post('/', isAuthenticated, function(req, res, next) {
                 }
         }
 	var newconfig = ini.encode(ircddbgwconf);
-//	console.log(newconfig);
 	fs.writeFileSync(ircddbgatewayconf,newconfig);
 	res.render('ircddbgateway', data);
 	

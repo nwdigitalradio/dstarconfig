@@ -6,6 +6,10 @@ body {
   box-shadow: 4px 4px 20px rgba(200, 0, 0, 0.85);
 }
 
+.modem {
+  box-shadow: 4px 4px 20px rgba(200, 0, 0, 0.85);
+}
+
 .monospace {
 	font-family: monospace;
 }

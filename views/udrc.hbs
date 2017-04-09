@@ -6,6 +6,21 @@
 Controller Not Detected
 {{/if}}
 </h4>
+<fieldset>
+<legend>Modem Level Settings</legend>
+<a id="bcr-levels" class="modem" href="/commands/setbcr">
+	<button>Set Bridgecom Modem</button>
+</a>
+<a id="yaesu-levels" class="modem" href="/commands/setdr1x">
+	<button>Set Yaesu Modem</button>
+</a>
+<div id="other-levels">
+Use alsamixer to set modem levels. Start by selecting  
+<a id="yaesu-levels" class="modem" href="/commands/setdr1x"><button>Modem Levels</button></a>, 
+then follow these <a href="https://nw-digital-radio.groups.io/g/udrc/wiki/UDRC%E2%84%A2-For-Simplex-Hotspots-and-Converted-Analog-Repeaters#Troubleshooting" target="directions">directions</a>.
+</div>
+</fieldset>
+
 <form method="post">
    <fieldset>
    <legend>Required settings, specific to your setup</legend>
@@ -15,10 +30,10 @@ Controller Not Detected
       <tr>
          <th>Radio Type</th>
          <td class="udrcinput">
-	    <select id="radioType" name="radioType" onchange="updateoptions(this)">
+	    <select id="radioType" name="radioType" onchange="updateoptions(this);levelButton()">
             <option value="dr1x-uhf">Yaesu DR-1X UHF</option>
             <option value="dr1x-vhf">Yaesu DR-1X VHF</option>
-            <option value="bcr220">Bridgecom BCR-220</option>
+            <option value="bcr220">Bridgecom BCR</option>
             <option value="other">Other</option>
 	    </select>
          </td>
@@ -279,9 +294,34 @@ function setSimplex() {
 	}
 }
 
+function levelButton() {
+        var radioType = $('#radioType').val();
+        switch(radioType) {
+                case 'bcr220' :
+                        $("#bcr-levels").show();
+                        $("#yaesu-levels").hide();
+                        $("#other-levels").hide();
+                        break;
+                case 'dr1x-vhf' :
+                        $("#bcr-levels").hide();
+                        $("#yaesu-levels").show();
+                        $("#other-levels").hide();
+                        break;
+                case 'dr1x-uhf' :
+                        $("#bcr-levels").hide();
+                        $("#yaesu-levels").show();
+                        $("#other-levels").hide();
+                        break;
+                default:
+                        $("#bcr-levels").hide();
+                        $("#yaesu-levels").hide();
+                        $("#other-levels").show();
+                        break;
+        }
+}
+
 function updateoptions(mod) {
         var url = "/udrcconfig?modFile=" + mod.value;
-	console.log(url);
         $.get(url,function(data) {
                 updateInputs(data,radiobuttons,selects);
         });
@@ -293,6 +333,7 @@ function setgateway(ele) {
 
 $(function() {
         updateInputs(JSON.parse('{{{json conf}}}'),radiobuttons,selects);
+	levelButton();
 	setSimplex();
 });
 
